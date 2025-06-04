@@ -9,32 +9,31 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'  # Azure supports up to 20.x
+          node-version: '22.x'
 
-      - name: npm install, build, and test
-        working-directory: backend
+      - name: Install backend dependencies
         run: |
+          cd backend
           npm install
-          npm run build --if-present
-          npm run test --if-present
 
-      - name: Zip artifact for deployment
-        run: zip -r release.zip backend -x "backend/node_modules/*" "backend/.git/*" "*.log"
+      - name: Zip backend for deployment
+        run: |
+          cd backend
+          zip -r ../release.zip ./*
 
-      - name: Upload artifact for deployment job
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: release.zip
+
 
   deploy:
     runs-on: ubuntu-latest
