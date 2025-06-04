@@ -54,7 +54,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'backend'
+          app-name: 'backendapp'
           slot-name: 'Production'
           package: ./backend
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8687D0C170A142169D29B2C475B40E70 }}
